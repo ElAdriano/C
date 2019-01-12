@@ -1,0 +1,267 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAXSIZE 10000
+
+typedef struct stany_struct{
+    char * stany;
+    int n;
+}zStanow;
+
+typedef struct symbole{
+    char * symbole_d;
+    int n;
+}zSymboli;
+
+typedef struct przejscie{
+    char symbol1; //na tasmie
+    char symbol2; //na jaki zmieniam
+    char stan1; //stan przed przejsciem
+    char stan2; //stan po przejsciu
+    int kierunek; //w ktora strone idzie glowica
+}przejscia;
+
+typedef struct zprzejsc{
+    int n;
+    przejscia * t_przejsc;
+}zPrzejsc;
+
+//definicja Maszyny Turinga wraz z funkcja inicjujaca
+typedef struct Maszyna{
+    zStanow * Q;
+    zStanow * F;
+    zSymboli * sigma;
+    zPrzejsc * Pr;
+    char * tasma; //stan trzymany jest pod indeksem glowica
+    int glowica;
+    int d_tasmy;
+}MT;
+
+MT * init_MT( char a );
+//------------------------------------------
+//funkcje dla dowolnej maszyny Turinga
+void dodaj_stan( zStanow * k, char a );
+void dodaj_symbol( zSymboli* k, char a );
+void dodaj_przejscie( MT * M, char sym_n_t, char zam_n_t, char popstan, char naststan, char k );
+
+void wypisz_stany( zStanow * k );
+void wypisz_symbole( zSymboli * k );
+void wypisz_przejscia( MT * M );
+void wypisz_tasme( MT * M, int k );
+
+void daj_wejscie( MT * M, char * a );
+int koncowy_stan( MT * M );
+przejscia szukaj_reguly( MT * M, char nsymb, char stan );
+int symbol_ok( MT * M, char a );
+int start_maszyny( MT * M );
+//------------------------------------------
+
+int main(){
+    MT * M = init_MT( 's' );
+
+    //definiuje stany dla maszyny Turinga M
+    dodaj_stan( M -> Q, 'a' );
+    dodaj_stan( M -> Q, 'b' );
+    dodaj_stan( M -> F, 'b' );
+
+    //definiuje przejscia dla maszyny Turinga M
+    dodaj_przejscie( M, 'B', 'B', 's', 's', 'P' );
+    dodaj_przejscie( M, '1', '0', 's', 'a', 'P' );
+    dodaj_przejscie( M, '0', '1', 's', 'b', 'P' );
+    dodaj_przejscie( M, '1', '0', 'a', 'a', 'P' );
+    dodaj_przejscie( M, '0', '1', 'a', 'b', 'P' );
+    dodaj_przejscie( M, 'B', '1', 'a', 'b', 'P' );
+    dodaj_przejscie( M, 'B', 'B', 'b', 'b', 'P' );
+    dodaj_przejscie( M, '0', '0', 'b', 'b', 'P' );
+    dodaj_przejscie( M, '1', '1', 'b', 'b', 'P' );
+
+    //definiuje alfabet stosowny dla MT M
+    dodaj_symbol( M -> sigma, '0' );
+    dodaj_symbol( M -> sigma, '1' );
+    dodaj_symbol( M -> sigma, 'B' );
+
+    //podaje slowo na wejscie do sprawdzenia czy jest ono akceptowane przez MT
+    daj_wejscie( M, "11010111" ); //daje liczbe 11101011 (zapis binarny) <- wpisuje liczbe od tylu ; wynik zczytuje tez od tylu
+    wypisz_tasme( M, 0 );
+
+    int wynik = start_maszyny( M ); //wynik = 1 oznacza ze slowo jest akceptowane ; 0 oznacza ze nie
+    if( wynik == 1 ){
+        wypisz_tasme( M, 1 );
+        printf("slowo podane na wejsciu zostalo zaakceptowane przez daną maszynę Turinga\n");
+    }
+    else{
+        printf("slowo podane na wejsciu nie jest akceptowane przez daną maszynę Turinga\n");
+        if( wynik == 0 ){
+            printf("znaleziono symbol nie nalezacy do zbioru symboli stosownych\n");
+        }
+        if( wynik == 2 ){
+            printf("wykonano ruch w lewo od lewego ogranicznika tasmy\n");
+        }
+
+    }
+    return 0;
+}
+
+int start_maszyny(MT * M){
+    while( M -> glowica < M -> d_tasmy ){ //dopoki nie przerobie calego slowa
+        if( symbol_ok(M, M -> tasma[ M -> glowica + 1 ]) == 1 ){
+          przejscia zamiana = szukaj_reguly(M, M -> tasma[ M -> glowica + 1 ], M -> tasma[ M -> glowica ]);
+          if( M -> glowica == 0 && zamiana.kierunek == -1 ){
+              return 2; //blad przy probie wykonania ruchu na lewo od lewego ogranicznika tasmy
+          }
+          M -> tasma[ M -> glowica + 1 ] = zamiana.symbol2;
+          M -> tasma[ M -> glowica ] = zamiana.stan2;
+          char tmp = M -> tasma[ M -> glowica + 1 ];
+          M -> tasma[ M -> glowica + 1 ] = M -> tasma[ M -> glowica ];
+          M -> tasma[ M -> glowica ] = tmp;
+          M -> glowica = ( (M -> glowica) + zamiana.kierunek );
+        }
+        else{
+          return 0; //wykryto symbol nienalezacy do zbioru symboli stosownych
+        }
+    }
+    return 1;
+}
+
+int symbol_ok(MT * M, char a){
+    for(int i = 0; i < M -> sigma -> n; i++){
+        if(a == M -> sigma -> symbole_d[i]){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int koncowy_stan(MT * M){
+    for(int i = 0; i < M -> F -> n; i++){
+        if(M -> tasma[ M -> glowica ] == M -> F -> stany[i]){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+przejscia szukaj_reguly(MT * M, char nsymb, char stan){
+    for(int i = 0; i < M -> Pr -> n; i++){
+        char tmpsymb = M -> Pr -> t_przejsc[i].symbol1;
+        char tmpstan = M -> Pr -> t_przejsc[i].stan1;
+        if(nsymb == tmpsymb && stan == tmpstan){
+            return M -> Pr -> t_przejsc[i];
+        }
+    }
+}
+
+void wypisz_tasme(MT * M, int k){//inaczej wypisz opis chwilowy
+    int i = 0;
+    if( k == 0 ){//wypisuje przed praca maszyny
+        while( i < M -> d_tasmy+1 ){
+            printf("%c",M -> tasma[i++]);
+        }
+    }
+    if( k == 1 ){
+        while( i < M -> glowica ){
+            printf("%c",M -> tasma[i++]);
+        }
+    }
+    printf("\n");
+}
+
+void daj_wejscie(MT * M, char * a){
+    int i = 0;
+    int idx_t = 1; //bo na zerowym miejscu stoi symbol poczatkowy
+    while(a[i] != '\0'){
+        M -> tasma[idx_t++] = a[i++];
+    }
+    M -> d_tasmy = idx_t-1;
+}
+
+MT * init_MT(char a){
+    MT * Maszyna = malloc(sizeof(MT));
+
+    Maszyna -> Q = (zStanow*)malloc(sizeof(zStanow));
+    Maszyna -> Q -> stany = malloc(MAXSIZE * sizeof(char));
+    Maszyna -> Q -> stany[0] = '\0';
+    Maszyna -> Q -> n = 0;
+
+    Maszyna -> F = (zStanow*)malloc(sizeof(zStanow));
+    Maszyna -> F -> stany = malloc(MAXSIZE * sizeof(char));
+    Maszyna -> F -> stany[0] = '\0';
+    Maszyna -> F -> n = 0;
+
+    Maszyna -> sigma = (zSymboli*)malloc(sizeof(zSymboli));
+    Maszyna -> sigma -> symbole_d = malloc(MAXSIZE * sizeof(char));
+    Maszyna -> sigma -> symbole_d[0] =  '\0';
+    Maszyna -> sigma -> n = 0;
+
+    Maszyna -> Pr = (zPrzejsc*)malloc(sizeof(zPrzejsc));// = zbior_przejsc
+    Maszyna -> Pr -> t_przejsc = malloc(MAXSIZE * sizeof(przejscia));
+    Maszyna -> Pr -> n = 0;
+
+    Maszyna -> tasma = (char*)malloc(MAXSIZE * sizeof(char));
+    Maszyna -> glowica = 0;
+    for(int i = 0; i < MAXSIZE; i++){
+        Maszyna -> tasma[i] = 'B'; //nieskonczony pusty przyrostek
+    }
+    Maszyna -> tasma[0] = a; //ustawiam stan poczatkowy gotowy do przerobienia wejscia
+    return Maszyna;
+}
+
+void wypisz_przejscia(MT * M){
+    int n_t = M -> Pr -> n;
+    printf("symbol przeczytany\t\tstan_p\t\tstan_zam\t\tkierunek\n");
+    char snt, zsnt, sp, sk, k;
+    for(int i = 0; i < n_t; i++){
+        snt = M -> Pr -> t_przejsc[i].symbol1;
+        zsnt = M -> Pr -> t_przejsc[i].symbol2;
+        sp = M -> Pr -> t_przejsc[i].stan1;
+        sk = M -> Pr -> t_przejsc[i].stan2;
+        if(M -> Pr -> t_przejsc[i].kierunek == 1){
+            k = 'P';
+        }
+        else{
+            k = 'L';
+        }
+        printf("%c\t\t%c\t\t%c\t\t%c\t\t%c\n",snt,zsnt,sp,sk,k);
+    }
+}
+
+void dodaj_przejscie(MT * M, char sym_n_t, char zam_n_t, char popstan, char naststan, char k){ //zwracam 1 jesli udalo sie dodac przejscie ; w przeciwnym razie 0;
+    if( k != 'L' && k != 'P' ){
+        return;
+    }
+    int idx = M -> Pr -> n;
+    M -> Pr -> t_przejsc[idx].symbol1 = sym_n_t;
+    M -> Pr -> t_przejsc[idx].symbol2 = zam_n_t;
+    M -> Pr -> t_przejsc[idx].stan1 = popstan;
+    M -> Pr -> t_przejsc[idx].stan2 = naststan;
+    if( k == 'L' ){
+        M -> Pr -> t_przejsc[idx].kierunek = -1;
+    }
+    else  if( k == 'P'){
+        M -> Pr -> t_przejsc[idx].kierunek = 1;
+    }
+    M -> Pr -> n++;
+    return;
+}
+
+void dodaj_symbol(zSymboli * k, char a){
+    k -> symbole_d[ k -> n++ ] = a;
+}
+
+void dodaj_stan(zStanow * k, char a){
+    k -> stany[ k -> n++ ] = a;
+}
+
+void wypisz_stany(zStanow * k){
+    for(int i = 0; i < k->n; i++){
+        printf("%c ", k -> stany[i]);
+    }
+    printf("\n");
+}
+
+void wypisz_symbole(zSymboli * k){
+    for(int i = 0; i < k -> n; i++){
+        printf("%c ", k -> symbole_d[i]);
+    }
+    printf("\n");
+}
