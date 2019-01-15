@@ -42,9 +42,6 @@ void dodaj_stan( zStanow * k, char a );
 void dodaj_symbol( zSymboli* k, char a );
 void dodaj_przejscie( MT * M, char sym_n_t, char zam_n_t, char popstan, char naststan, char k );
 
-void wypisz_stany( zStanow * k );
-void wypisz_symbole( zSymboli * k );
-void wypisz_przejscia( MT * M );
 void wypisz_tasme( MT * M, int k );
 
 void daj_wejscie( MT * M, char * a );
@@ -52,10 +49,11 @@ int koncowy_stan( MT * M );
 przejscia szukaj_reguly( MT * M, char nsymb, char stan );
 int symbol_ok( MT * M, char a );
 int start_maszyny( MT * M );
+void zniszcz_maszyne( MT * M );
 
-int main(){
+int main(int argc, char** argv){
     MT * M = init_MT( 's' );
-
+    
     dodaj_stan( M -> Q, 'a' );
     dodaj_stan( M -> Q, 'b' );
     dodaj_stan( M -> F, 'b' );
@@ -74,7 +72,7 @@ int main(){
     dodaj_symbol( M -> sigma, '1' );
     dodaj_symbol( M -> sigma, 'B' );
 
-    daj_wejscie( M, "11010111" ); //daje liczbe 11101011 (zapis binarny) <- wpisuje liczbe od tylu ; wynik zczytuje tez od tylu
+    daj_wejscie( M, "11010111" ); //daje liczbe 11101011 (zapis binarny) - zapis od konca
     wypisz_tasme( M, 0 );
 
     int wynik = start_maszyny( M );
@@ -92,7 +90,21 @@ int main(){
         }
 
     }
+    zniszcz_maszyne( M );
     return 0;
+}
+
+void zniszcz_maszyne(MT * M){
+	free( M -> Q -> stany );
+    free( M -> Q );
+    free( M -> F -> stany );
+	free( M -> F );
+	free( M -> sigma -> symbole_d );
+	free( M -> sigma );
+	free( M -> Pr -> t_przejsc );
+    free( M -> Pr );
+    free( M -> tasma );
+    free( M );
 }
 
 int start_maszyny(MT * M){
@@ -193,29 +205,10 @@ MT * init_MT(char a){
     Maszyna -> tasma = (char*)malloc(MAXSIZE * sizeof(char));
     Maszyna -> glowica = 0;
     for(int i = 0; i < MAXSIZE; i++){
-        Maszyna -> tasma[i] = 'B'; 
+        Maszyna -> tasma[i] = 'B';
     }
     Maszyna -> tasma[0] = a;
     return Maszyna;
-}
-
-void wypisz_przejscia(MT * M){
-    int n_t = M -> Pr -> n;
-    printf("symbol przeczytany\t\tstan_p\t\tstan_zam\t\tkierunek\n");
-    char snt, zsnt, sp, sk, k;
-    for(int i = 0; i < n_t; i++){
-        snt = M -> Pr -> t_przejsc[i].symbol1;
-        zsnt = M -> Pr -> t_przejsc[i].symbol2;
-        sp = M -> Pr -> t_przejsc[i].stan1;
-        sk = M -> Pr -> t_przejsc[i].stan2;
-        if(M -> Pr -> t_przejsc[i].kierunek == 1){
-            k = 'P';
-        }
-        else{
-            k = 'L';
-        }
-        printf("%c\t\t%c\t\t%c\t\t%c\t\t%c\n",snt,zsnt,sp,sk,k);
-    }
 }
 
 void dodaj_przejscie(MT * M, char sym_n_t, char zam_n_t, char popstan, char naststan, char k){
@@ -243,18 +236,4 @@ void dodaj_symbol(zSymboli * k, char a){
 
 void dodaj_stan(zStanow * k, char a){
     k -> stany[ k -> n++ ] = a;
-}
-
-void wypisz_stany(zStanow * k){
-    for(int i = 0; i < k->n; i++){
-        printf("%c ", k -> stany[i]);
-    }
-    printf("\n");
-}
-
-void wypisz_symbole(zSymboli * k){
-    for(int i = 0; i < k -> n; i++){
-        printf("%c ", k -> symbole_d[i]);
-    }
-    printf("\n");
 }
