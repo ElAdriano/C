@@ -96,15 +96,15 @@ int main(int argc, char** argv){
 
 void zniszcz_maszyne(MT * M){
 	free( M -> Q -> stany );
-    free( M -> Q );
-    free( M -> F -> stany );
+    	free( M -> Q );
+    	free( M -> F -> stany );
 	free( M -> F );
 	free( M -> sigma -> symbole_d );
 	free( M -> sigma );
-	free( M -> Pr -> t_przejsc );
-    free( M -> Pr );
-    free( M -> tasma );
-    free( M );
+    	free( M -> Pr -> t_przejsc );
+    	free( M -> Pr );
+    	free( M -> tasma );
+    	free( M );
 }
 
 int start_maszyny(MT * M){
