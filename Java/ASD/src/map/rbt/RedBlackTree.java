@@ -42,47 +42,46 @@ public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
             }
             node.setParent(pointer);
         }
-        if((Integer)key == 121){
+        /*if((Integer)key == 121){
             reorganize(node,true);
         }else{
             reorganize(node, false);
-        }
+        }*/
+        reorganize(node,true);
     }
 
     private void reorganize(Node node, boolean cansee) {
         while(node != null){
             int incorrectCase = checkTreeCorrectionInNode(node);
-            System.out.println(">>>>>>>>>>>> node info: " + node.getValue());
-            while(incorrectCase != 0){
-                //System.out.println(">>>>>>>> inside second while in reorganize: " + node.getValue());
-                if(cansee)showTree();
-                incorrectCase = checkTreeCorrectionInNode(node);
 
+            while(incorrectCase != 0){
+                //if(cansee)showTree();
+                incorrectCase = checkTreeCorrectionInNode(node);
                 switch(incorrectCase){
                     case 1:
-                        rightRotation(node.getParent());
-                        node.getRightSon().setRed(true);
-                        node.setRed(false);
-                        break;
-                    case 2:
-                        leftRotation(node);
-                        break;
-                    case 3:
-                        node.getRightSon().setRed(false);
-                        node.setRed(true);
-                        leftRotation(node);
-                        break;
-                    case 4:
-                        node.getLeftSon().setRed(false);
-                        node.getRightSon().setRed(false);
                         node.setRed(true);
                         if(node == root){
                             node.setRed(false);
                         }
+                        node.getLeftSon().setRed(false);
+                        node.getRightSon().setRed(false);
                         break;
-                    case 5:
+                    case 2:
                         leftRotation(node);
-                        //node.getRightSon().setRed(false);
+                        node.setRed(true);
+                        node.getParent().setRed(false);
+                        break;
+                    case 3:
+                        leftRotation(node);
+                        node = node.getParent();
+                        rightRotation(node.getParent());
+                        node.setRed(true);
+                        node.getLeftSon().setRed(false);
+                        break;
+                    case 4:
+                        rightRotation(node.getParent());
+                        node.setRed(false);
+                        node.getRightSon().setRed(true);
                         break;
                 }
             }
@@ -94,24 +93,14 @@ public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
         if (node == null) {
             node = root;
         }
-        if (node.getLeftSon() != leaf && node.getRightSon() == leaf) {        // node has only left son
-            if (node.isRed() && node.getLeftSon().isRed()) {                  // when node is red and has red child
-                return 1;
-            }
-        } else if (node.getLeftSon() == leaf && node.getRightSon() != leaf) { // node has only right son
-            if (node.isRed() && node.getRightSon().isRed()) {                 // node and right son is red
-                return 2;
-            }
-            if (node.getRightSon().isRed()) {                                 // node has red right son and node is black
-                return 3;
-            }
-        } else {                                                              // node has both sons
-            if (node.getLeftSon().isRed() && node.getRightSon().isRed()) {
-                return 4;
-            }
-            if (node.getRightSon().isRed()) {
-                return 5;
-            }
+        if(node.getLeftSon().isRed() && node.getRightSon().isRed()){    // both sons are red
+            return 1;
+        }else if(!node.isRed() && node.getRightSon().isRed()){          // I am black and have red right son
+            return 2;
+        }else if(node.isRed() && node.getRightSon().isRed()){           // I'm red and have red right son
+            return 3;
+        }else if(node.isRed() && node.getLeftSon().isRed()){            // I'm red and have red left son
+            return 4;
         }
         return 0;
     }
