@@ -42,74 +42,81 @@ public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
             }
             node.setParent(pointer);
         }
-        reorganize(node);
+        if((Integer)key == 121){
+            reorganize(node,true);
+        }else{
+            reorganize(node, false);
+        }
     }
 
-    private void reorganize(Node node) {
-        int incorrectCase = checkTreeCorrectionInNode(node.getParent());
-        System.out.println(">>>>>>>>>>>>>>>>>>> reorganize");
-        System.out.println(node.getValue());
-        System.out.println(incorrectCase);
-        System.out.println(">>>>>>>>>>>>>>>>>>> reorganize");
-        Node grandNode = node.getParent();
-        switch(incorrectCase){
-            case 1:     // when node is red and has red left child
-                rightRotation(grandNode);
-                node.setRed(false);
-                node.getLeftSon().setRed(false);
-                node.getRightSon().setRed(false);
-                node.setRed(true);
-                break;
-            case 2:  // debugged                       // when node is red and has red right child
-                leftRotation(node.getParent());
-                grandNode = node.getParent();
-                rightRotation(grandNode);
-                node.setRed(false);
-                node.getLeftSon().setRed(false);
-                node.getRightSon().setRed(false);
-                break;
-            case 3: // debugged
-                leftRotation(node.getParent());
-                node.setRed(false);
-                node.getLeftSon().setRed(true);
-                break;
-            case 4:
-                node.getLeftSon().setRed(false);
-                node.getRightSon().setRed(false);
-                break;
+    private void reorganize(Node node, boolean cansee) {
+        while(node != null){
+            int incorrectCase = checkTreeCorrectionInNode(node);
+            System.out.println(">>>>>>>>>>>> node info: " + node.getValue());
+            while(incorrectCase != 0){
+                //System.out.println(">>>>>>>> inside second while in reorganize: " + node.getValue());
+                if(cansee)showTree();
+                incorrectCase = checkTreeCorrectionInNode(node);
+
+                switch(incorrectCase){
+                    case 1:
+                        rightRotation(node.getParent());
+                        node.getRightSon().setRed(true);
+                        node.setRed(false);
+                        break;
+                    case 2:
+                        leftRotation(node);
+                        break;
+                    case 3:
+                        node.getRightSon().setRed(false);
+                        node.setRed(true);
+                        leftRotation(node);
+                        break;
+                    case 4:
+                        node.getLeftSon().setRed(false);
+                        node.getRightSon().setRed(false);
+                        node.setRed(true);
+                        if(node == root){
+                            node.setRed(false);
+                        }
+                        break;
+                    case 5:
+                        leftRotation(node);
+                        //node.getRightSon().setRed(false);
+                        break;
+                }
+            }
+            node = node.getParent();
         }
     }
 
     private int checkTreeCorrectionInNode(Node node) {
-        if(node != null){
-            System.out.println(">>>>>>>>>>>>>>>>>>>> checkTreeCorrection");
-            System.out.println(node.getValue());
-            System.out.println(">>>>>>>>>>>>>>>>>>>> checkTreeCorrection");
-            if(node.getLeftSon() != leaf && node.getRightSon() == leaf){        // node has only left son
-                if(node.isRed()){                                               // when node is red and has red child
-                    return 1;
-                }
-            }else if(node.getLeftSon() == leaf && node.getRightSon() != leaf){  // node has only right son
-                if(node.isRed() && node.getRightSon().isRed()){                 // node and right son is red
-                    return 2;
-                }
-                if(node.getRightSon().isRed()){                                 // node has red right son and node is black
-                    return 3;
-                }
-            }else{                                                              // node has both sons
-                if(node.getLeftSon().isRed() && node.getRightSon().isRed()){
-                    return 4;
-                }
+        if (node == null) {
+            node = root;
+        }
+        if (node.getLeftSon() != leaf && node.getRightSon() == leaf) {        // node has only left son
+            if (node.isRed() && node.getLeftSon().isRed()) {                  // when node is red and has red child
+                return 1;
+            }
+        } else if (node.getLeftSon() == leaf && node.getRightSon() != leaf) { // node has only right son
+            if (node.isRed() && node.getRightSon().isRed()) {                 // node and right son is red
+                return 2;
+            }
+            if (node.getRightSon().isRed()) {                                 // node has red right son and node is black
+                return 3;
+            }
+        } else {                                                              // node has both sons
+            if (node.getLeftSon().isRed() && node.getRightSon().isRed()) {
+                return 4;
+            }
+            if (node.getRightSon().isRed()) {
+                return 5;
             }
         }
         return 0;
     }
 
     private void leftRotation(Node node) {
-        System.out.println(">>>>>>>>>>>>>>> LEFT ROTATION");
-        System.out.println(node.getValue());
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-
         Node rsNode = node.getRightSon();
         node.setRightSon(rsNode.getLeftSon());
 
@@ -129,47 +136,24 @@ public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
         node.setParent(rsNode);
     }
 
-    private void rightRotation(Node node){
+    private void rightRotation(Node node) {
         Node lsNode = node.getLeftSon();
         node.setLeftSon(lsNode.getRightSon());
 
-        if(lsNode.getRightSon() != leaf){
+        if (lsNode.getRightSon() != leaf) {
             lsNode.getRightSon().setParent(node);
         }
 
         lsNode.setParent(node.getParent());
-        if(node.getParent() == null){
+        if (node.getParent() == null) {
             root = lsNode;
-        }else if(node.getParent().getLeftSon() == node){
+        } else if (node.getParent().getLeftSon() == node) {
             node.getParent().setLeftSon(lsNode);
-        }else{
+        } else {
             node.getParent().setRightSon(lsNode);
         }
         lsNode.setRightSon(node);
         node.setParent(lsNode);
-    }
-
-    private Node findNode(int key) {
-        Node pointer = root;
-        if (pointer == null) {
-            return null;
-        } else {
-            while (pointer != leaf) {
-                if (pointer.getKey().compareTo(key) == 0) {
-                    return pointer;
-                } else if (pointer.getKey().compareTo(key) < 0) {
-                    pointer = pointer.getRightSon();
-                } else {
-                    pointer = pointer.getLeftSon();
-                }
-            }
-            return null;
-        }
-    }
-
-    public void testRRotation(int key) {
-        Node node = findNode(key);
-        this.rightRotation(node);
     }
 
     private void showTree(ArrayList<ArrayList<Node>> list, Node n, int lvl) {
@@ -190,19 +174,51 @@ public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
         showTree(n, root, 0);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < n.get(i).size(); j++) {
-                System.out.print(n.get(i).get(j).getValue() + "("+(n.get(i).get(j).isRed()?"red)":"black)"));
+                if (n.get(i).get(j).getValue() != null) {
+                    System.out.print(n.get(i).get(j).getValue() + "   (" + (n.get(i).get(j).isRed() ? " red )    " : "black)    "));
+                } else {
+                    System.out.print(n.get(i).get(j).getValue() + "(" + (n.get(i).get(j).isRed() ? " red )      " : "black)    "));
+                }
             }
             System.out.println();
         }
     }
 
-    @Override
-    public void setValue(Comparable key, Object value) {
-
+    private Node findNode(Comparable key) {
+        Node pointer = root;
+        if (pointer == null) {
+            return null;
+        } else {
+            while (pointer != leaf) {
+                if (pointer.getKey().compareTo(key) == 0) {
+                    return pointer;
+                } else if (pointer.getKey().compareTo(key) < 0) {
+                    pointer = pointer.getRightSon();
+                } else {
+                    pointer = pointer.getLeftSon();
+                }
+            }
+            return null;
+        }
     }
 
     @Override
-    public Object getValue(Comparable key) {
-        return null;
+    public void setValue(Comparable key, Object value) throws NoSuchKeyException {
+        Node node = findNode(key);
+        if(node == null){
+            throw new NoSuchKeyException(key, "No such key in map.");
+        }else{
+            node.setValue(value);
+        }
+    }
+
+    @Override
+    public Object getValue(Comparable key) throws NoSuchKeyException {
+        Node node = findNode(key);
+        if(node == null){
+            throw new NoSuchKeyException(key, "No such key in map");
+        }else{
+            return node.getValue();
+        }
     }
 }
