@@ -57,10 +57,15 @@ public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
             while(incorrectCase != 0){
                 //if(cansee)showTree();
                 incorrectCase = checkTreeCorrectionInNode(node);
+                /*System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+                System.out.println(node.getValue());
+                System.out.println(node.isRed());
+                System.out.println(incorrectCase);
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");*/
                 switch(incorrectCase){
                     case 1:
                         node.setRed(true);
-                        if(node == root){
+                        if(node.getParent() == null){
                             node.setRed(false);
                         }
                         node.getLeftSon().setRed(false);
@@ -73,10 +78,13 @@ public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
                         break;
                     case 3:
                         leftRotation(node);
-                        node = node.getParent();
+
+                        /*node = node.getParent();
+                        System.out.println(">>>>>>>>>>> After left rotation");
+                        showTree();
                         rightRotation(node.getParent());
                         node.setRed(true);
-                        node.getLeftSon().setRed(false);
+                        node.getLeftSon().setRed(false);*/
                         break;
                     case 4:
                         rightRotation(node.getParent());
