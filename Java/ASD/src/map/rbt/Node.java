@@ -1,39 +1,39 @@
 package map.rbt;
 
-public class Node<K extends Comparable<K>,V> {
-    private Node leftson;
-    private Node rightson;
+public class Node<K extends Comparable<K>, V> {
+
+    private Node leftSon;
+    private Node rightSon;
     private Node parent;
     private boolean isRed;
 
     private V value;
     private K key;
 
-    public Node(K key, V value, Node parent, Node leftson, Node rightson, boolean isRed){
+    public Node(K key, V value, Node parent, Node leftSon, Node rightSon, boolean isRed) {
         this.isRed = isRed;
         this.parent = parent;
-        this.leftson = leftson;
-        this.rightson = rightson;
+        this.leftSon = leftSon;
+        this.rightSon = rightSon;
 
         this.value = value;
         this.key = key;
     }
 
-
     public Node getRightSon() {
-        return rightson;
+        return rightSon;
     }
 
     public void setRightSon(Node rightson) {
-        this.rightson = rightson;
+        this.rightSon = rightson;
     }
 
     public Node getLeftSon() {
-        return leftson;
+        return leftSon;
     }
 
     public void setLeftSon(Node leftson) {
-        this.leftson = leftson;
+        this.leftSon = leftson;
     }
 
     public Node getParent() {
@@ -63,4 +63,5 @@ public class Node<K extends Comparable<K>,V> {
     public void setRed(boolean red) {
         isRed = red;
     }
+
 }

@@ -3,15 +3,36 @@ package map.rbt;
 import java.util.ArrayList;
 
 public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
+
     private Node root;
-    private Node leaf;
+    private final Node leaf;
 
     public RedBlackTree() {
         this.root = null;
         this.leaf = new Node(null, null, null, null, null, false);
     }
 
-    public void add(K key, V value) {
+    @Override
+    public void setValue(Comparable key, Object value) {
+        Node node = findNode(key);
+        if (node == null) {
+            add((K) key, (V) value);
+        } else {
+            node.setValue(value);
+        }
+    }
+
+    @Override
+    public Object getValue(Comparable key) {
+        Node node = findNode(key);
+        if (node == null) {
+            throw new NoKeyInTreeException(key, "No such key in map"); // exception when there is no key in red-black tree
+        } else {
+            return node.getValue();
+        }
+    }
+
+    private void add(K key, V value) {
         Node<K, V> node = new Node<>(key, value, null, leaf, leaf, true);
 
         Node prevNode = root;
@@ -47,15 +68,15 @@ public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
     }
 
     private void reorganize(Node node) {
-        while(node != null){
+        while (node != null) {
             int incorrectCase = checkTreeCorrectionInNode(node);
 
-            while(incorrectCase != 0){
+            while (incorrectCase != 0) {
                 incorrectCase = checkTreeCorrectionInNode(node);
-                switch(incorrectCase){
+                switch (incorrectCase) {
                     case 1:
                         node.setRed(true);
-                        if(node.getParent() == null){
+                        if (node.getParent() == null) {
                             node.setRed(false);
                         }
                         node.getLeftSon().setRed(false);
@@ -73,6 +94,7 @@ public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
                         rightRotation(node.getParent());
                         node.setRed(false);
                         node.getRightSon().setRed(true);
+                        node = node.getRightSon();
                         break;
                 }
             }
@@ -84,13 +106,13 @@ public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
         if (node == null) {
             node = root;
         }
-        if(node.getLeftSon().isRed() && node.getRightSon().isRed()){    // both sons are red
+        if (node.getLeftSon().isRed() && node.getRightSon().isRed()) {
             return 1;
-        }else if(!node.isRed() && node.getRightSon().isRed()){          // I am black and have red right son
+        } else if (!node.isRed() && node.getRightSon().isRed()) {
             return 2;
-        }else if(node.isRed() && node.getRightSon().isRed()){           // I'm red and have red right son
+        } else if (node.isRed() && node.getRightSon().isRed()) {
             return 3;
-        }else if(node.isRed() && node.getLeftSon().isRed()){            // I'm red and have red left son
+        } else if (node.isRed() && node.getLeftSon().isRed()) {
             return 4;
         }
         return 0;
@@ -136,35 +158,52 @@ public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
         node.setParent(lsNode);
     }
 
-    private void showTree(ArrayList<ArrayList<Node>> list, Node n, int lvl) {
+    private void getTreeStructure(ArrayList<ArrayList<Node>> list, Node n, int lvl) {
         list.get(lvl).add(n);
         if (n.getLeftSon() != null) {
-            showTree(list, n.getLeftSon(), lvl + 1);
+            getTreeStructure(list, n.getLeftSon(), lvl + 1);
         }
         if (n.getRightSon() != null) {
-            showTree(list, n.getRightSon(), lvl + 1);
+            getTreeStructure(list, n.getRightSon(), lvl + 1);
+        }
+    }
+
+    private int getTreeHeight(Node n) {
+        if (n == leaf) {
+            return 1;
+        }
+        if (n.getLeftSon() != leaf && n.getRightSon() != leaf) {
+            return Math.max(getTreeHeight(n.getLeftSon()) + 1, getTreeHeight(n.getRightSon()) + 1);
+        } else if (n.getLeftSon() != leaf) {
+            return getTreeHeight(n.getLeftSon()) + 1;
+        } else {
+            return getTreeHeight(n.getRightSon()) + 1;
         }
     }
 
     public void showTree() {
-        ArrayList<ArrayList<Node>> n = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            n.add(new ArrayList<Node>());
+        ArrayList<ArrayList<Node>> tree = new ArrayList<>();
+        int h = getTreeHeight(root);
+
+        for (int i = 0; i < h; i++) {
+            tree.add(new ArrayList<>());
         }
-        showTree(n, root, 0);
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < n.get(i).size(); j++) {
-                if (n.get(i).get(j).getValue() != null) {
-                    System.out.print(n.get(i).get(j).getValue() + "   (" + (n.get(i).get(j).isRed() ? " red )    " : "black)    "));
+
+        getTreeStructure(tree, root, 0);
+
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < tree.get(i).size(); j++) {
+                if (tree.get(i).get(j).getKey() != null) {
+                    System.out.print(tree.get(i).get(j).getKey() + "   (" + (tree.get(i).get(j).isRed() ? " red )    " : "black)    "));
                 } else {
-                    System.out.print(n.get(i).get(j).getValue() + "(" + (n.get(i).get(j).isRed() ? " red )      " : "black)    "));
+                    System.out.print(tree.get(i).get(j).getKey() + "(" + (tree.get(i).get(j).isRed() ? " red )      " : "black)    "));
                 }
             }
             System.out.println();
         }
     }
 
-    private Node findNode(Comparable key) {
+    public Node findNode(Comparable key) {
         Node pointer = root;
         if (pointer == null) {
             return null;
@@ -182,23 +221,4 @@ public class RedBlackTree<K extends Comparable<K>, V> implements MapInterface {
         }
     }
 
-    @Override
-    public void setValue(Comparable key, Object value) throws NoSuchKeyException {
-        Node node = findNode(key);
-        if(node == null){
-            throw new NoSuchKeyException(key, "No such key in map.");
-        }else{
-            node.setValue(value);
-        }
-    }
-
-    @Override
-    public Object getValue(Comparable key) throws NoSuchKeyException {
-        Node node = findNode(key);
-        if(node == null){
-            throw new NoSuchKeyException(key, "No such key in map");
-        }else{
-            return node.getValue();
-        }
-    }
 }
