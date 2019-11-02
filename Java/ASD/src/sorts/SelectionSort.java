@@ -6,45 +6,47 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class InsertionSort implements SortingAlgorithm {
+public class SelectionSort implements SortingAlgorithm {
 
-    public InsertionSort() {
+    public SelectionSort() {
 
     }
 
     @Override
     public double[] sort(double[] unsortedVector) {
-        for (int i = 1; i < unsortedVector.length; i++) {
-            int j = i - 1;
-            double value = unsortedVector[i];
-            while (j >= 0 && unsortedVector[j] > value) {
-                unsortedVector[j + 1] = unsortedVector[j];
-                j--;
+        for (int i = 0; i < unsortedVector.length; i++) {
+            int minIndex = i;
+            int j = i + 1;
+            while (j < unsortedVector.length) {
+                if (unsortedVector[minIndex] > unsortedVector[j]) {
+                    minIndex = j;
+                }
+                j++;
             }
-            unsortedVector[j + 1] = value;
+            if (minIndex != i) {
+                double tmp = unsortedVector[minIndex];
+                unsortedVector[minIndex] = unsortedVector[i];
+                unsortedVector[i] = tmp;
+            }
         }
         return unsortedVector;
     }
 
     public void generateDataForChart(int amount) {
-        InsertionSort insertionSort = new InsertionSort();
+        SelectionSort selectionSort = new SelectionSort();
 
         try {
-            System.out.println("Start generating data");
-
-            BufferedWriter bw;
+            BufferedWriter bw = new BufferedWriter(new FileWriter("PessimisticDataSelectionSort.txt"));
             long beforeSortTime, afterSortTime;
-
-            bw = new BufferedWriter(new FileWriter("AverageDataForInsertionSort.txt"));
-            for (int i = 100; i < amount; i += 300) {
+            for (int i = 100; i < amount; i += 100) {
                 DataGenerator dataGenerator = new DataGenerator();
                 double avgTime = 0;
 
                 for (int k = 1; k <= 10; k++) {
-                    double[] data = dataGenerator.generateAverageDataForInsertionSort(i);
+                    double[] data = dataGenerator.generatePessimisticDataForSelectionSort(i);
 
                     beforeSortTime = System.nanoTime();
-                    insertionSort.sort(data);
+                    selectionSort.sort(data);
                     afterSortTime = System.nanoTime();
 
                     avgTime += (afterSortTime - beforeSortTime) / 10;
@@ -54,18 +56,17 @@ public class InsertionSort implements SortingAlgorithm {
                 bw.newLine();
             }
             bw.close();
-            System.out.println("Average data generating completed");
 
-            bw = new BufferedWriter(new FileWriter("OptimisticDataForInsertionSort.txt"));
-            for (int i = 100; i < amount; i += 300) {
+            bw = new BufferedWriter(new FileWriter("AverageDataForSelectionSort.txt"));
+            for (int i = 100; i < amount; i += 100) {
                 DataGenerator dataGenerator = new DataGenerator();
                 double avgTime = 0;
 
                 for (int k = 1; k <= 10; k++) {
-                    double[] data = dataGenerator.generateOptimisticDataForInsertionSort(i);
+                    double[] data = dataGenerator.generateAverageDataForSelectionSort(i);
 
                     beforeSortTime = System.nanoTime();
-                    insertionSort.sort(data);
+                    selectionSort.sort(data);
                     afterSortTime = System.nanoTime();
 
                     avgTime += (afterSortTime - beforeSortTime) / 10;
@@ -75,18 +76,17 @@ public class InsertionSort implements SortingAlgorithm {
                 bw.newLine();
             }
             bw.close();
-            System.out.println("Optimistic data generating completed");
 
-            bw = new BufferedWriter(new FileWriter("PessimisticDataInsertionSort.txt"));
-            for (int i = 100; i < amount; i += 300) {
+            bw = new BufferedWriter(new FileWriter("OptimisticDataForSelectionSort.txt"));
+            for (int i = 100; i < amount; i += 100) {
                 DataGenerator dataGenerator = new DataGenerator();
                 double avgTime = 0;
 
                 for (int k = 1; k <= 10; k++) {
-                    double[] data = dataGenerator.generatePessimisticDataForInsertionSort(i);
+                    double[] data = dataGenerator.generateOptimisticDataForSelectionSort(i);
 
                     beforeSortTime = System.nanoTime();
-                    insertionSort.sort(data);
+                    selectionSort.sort(data);
                     afterSortTime = System.nanoTime();
 
                     avgTime += (afterSortTime - beforeSortTime) / 10;
@@ -96,7 +96,6 @@ public class InsertionSort implements SortingAlgorithm {
                 bw.newLine();
             }
             bw.close();
-            System.out.println("Pessimistic data generating completed");
             System.out.println("Data generating completed");
         } catch (IOException e) {
         }
