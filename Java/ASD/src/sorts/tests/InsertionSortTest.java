@@ -17,17 +17,17 @@ class InsertionSortTest {
         InsertionSort insertionSort = new InsertionSort();
 
         double[] sortedData = insertionSort.sort(pessimisticData);
-        for (int i = 0; i < 1000 * 1000 - 1; i++) {
+        for (int i = 0; i < sortedData.length - 1; i++) {
             assertEquals(true, sortedData[i] <= sortedData[i + 1]);
         }
 
         sortedData = insertionSort.sort(averageData);
-        for (int i = 0; i < 1000 * 1000 - 1; i++) {
+        for (int i = 0; i < sortedData.length - 1; i++) {
             assertEquals(true, sortedData[i] <= sortedData[i + 1]);
         }
 
         sortedData = insertionSort.sort(optimisticData);
-        for (int i = 0; i < 1000 * 1000 - 1; i++) {
+        for (int i = 0; i < sortedData.length - 1; i++) {
             assertEquals(true, sortedData[i] <= sortedData[i + 1]);
         }
     }

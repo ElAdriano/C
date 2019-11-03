@@ -1,7 +1,11 @@
 package sorts;
 
+import sorts.tests.DataGenerator;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class QuickSort implements SortingAlgorithm {
 
@@ -31,10 +35,13 @@ public class QuickSort implements SortingAlgorithm {
             StackElement el = stack.get(0);
             stack.remove(0);
 
-            System.out.println(">>>>>>>>>>>>>>>>>>>");
-            System.out.println(">>>>> start: " + el.start);
-            System.out.println(">>>>> end: " + el.end);
-            System.out.println("\n");
+            if (el.end - el.start == 1) {
+                if (el.vector[el.start] > el.vector[el.end]) {
+                    swap(el.vector, el.start, el.end);
+                }
+                continue;
+            }
+
             int pivotIndex = getPivotIndex(el.vector, el.start, el.end);
             if (pivotIndex != el.start) {
                 swap(el.vector, el.start, pivotIndex);
@@ -53,13 +60,17 @@ public class QuickSort implements SortingAlgorithm {
                     break;
                 }
             }
+
+            if (i > j) {
+                i = j;
+            }
             swap(el.vector, j, el.start);
 
             if (i < el.end) {
-                stack.add(new StackElement(el.vector, i, el.end));
+                stack.add(new StackElement(el.vector, i + 1, el.end));
             }
             if (el.start < j) {
-                stack.add(new StackElement(el.vector, el.start, j));
+                stack.add(new StackElement(el.vector, el.start, j - 1));
             }
         }
         return unsortedVector;
@@ -69,8 +80,8 @@ public class QuickSort implements SortingAlgorithm {
         int m = ((e - s) / 2) + s;
 
         double[] tmp = {v[s], v[m], v[e]};
-        InsertionSort insortMed = new InsertionSort();
-        tmp = insortMed.sort(tmp);
+        InsertionSort inSortMed = new InsertionSort();
+        tmp = inSortMed.sort(tmp);
 
         if (tmp[1] == v[s]) {
             return s;
@@ -85,6 +96,82 @@ public class QuickSort implements SortingAlgorithm {
         double tmp = v[index1];
         v[index1] = v[index2];
         v[index2] = tmp;
+    }
+
+    public void generateDataForChart(int amount) {
+        QuickSort quickSort = new QuickSort();
+
+        try{
+            System.out.println("Start generating data");
+
+            BufferedWriter bw;
+            long beforeSortTime, afterSortTime;
+
+            bw = new BufferedWriter(new FileWriter("PessimisticDataForQuickSort.txt"));
+            for (int i = 100; i < amount; i += 100) {
+                DataGenerator dataGenerator = new DataGenerator();
+                double avgTime = 0;
+
+                for (int k = 1; k <= 10; k++) {
+                    double[] data = dataGenerator.generatePessimisticDataForQuickSort(i);
+
+                    beforeSortTime = System.nanoTime();
+                    quickSort.sort(data);
+                    afterSortTime = System.nanoTime();
+
+                    avgTime += (afterSortTime - beforeSortTime) / 10;
+                }
+
+                bw.write(String.valueOf(i) + " " + String.valueOf((long) avgTime));
+                bw.newLine();
+            }
+            bw.close();
+            System.out.println("Pessimistic data generating completed");
+
+            bw = new BufferedWriter(new FileWriter("AverageDataForQuickSort.txt"));
+            for (int i = 100; i < amount; i += 100) {
+                DataGenerator dataGenerator = new DataGenerator();
+                double avgTime = 0;
+
+                for (int k = 1; k <= 10; k++) {
+                    double[] data = dataGenerator.generateAverageDataForQuickSort(i);
+
+                    beforeSortTime = System.nanoTime();
+                    quickSort.sort(data);
+                    afterSortTime = System.nanoTime();
+
+                    avgTime += (afterSortTime - beforeSortTime) / 10;
+                }
+
+                bw.write(String.valueOf(i) + " " + String.valueOf((long) avgTime));
+                bw.newLine();
+            }
+            bw.close();
+            System.out.println("Average data generating completed");
+
+            bw = new BufferedWriter(new FileWriter("OptimisticDataForQuickSort.txt"));
+            for (int i = 100; i < amount; i += 100) {
+                DataGenerator dataGenerator = new DataGenerator();
+                double avgTime = 0;
+
+                for (int k = 1; k <= 10; k++) {
+                    double[] data = dataGenerator.generateOptimisticDataForQuickSort(i);
+
+                    beforeSortTime = System.nanoTime();
+                    quickSort.sort(data);
+                    afterSortTime = System.nanoTime();
+
+                    avgTime += (afterSortTime - beforeSortTime) / 10;
+                }
+
+                bw.write(String.valueOf(i) + " " + String.valueOf((long) avgTime));
+                bw.newLine();
+            }
+            bw.close();
+            System.out.println("Optimistic data generating completed");
+            System.out.println("Data generating completed");
+        }catch(IOException e){
+        }
     }
 
 }
