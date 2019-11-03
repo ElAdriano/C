@@ -35,8 +35,8 @@ public class InsertionSort implements SortingAlgorithm {
             BufferedWriter bw;
             long beforeSortTime, afterSortTime;
 
-            bw = new BufferedWriter(new FileWriter("AverageDataForInsertionSort.txt"));
-            for (int i = 100; i < amount; i += 300) {
+            /*bw = new BufferedWriter(new FileWriter("AverageDataForInsertionSort.txt"));
+            for (int i = 100; i < amount; i += 100) {
                 DataGenerator dataGenerator = new DataGenerator();
                 double avgTime = 0;
 
@@ -54,10 +54,10 @@ public class InsertionSort implements SortingAlgorithm {
                 bw.newLine();
             }
             bw.close();
-            System.out.println("Average data generating completed");
+            System.out.println("Average data generating completed");*/
 
             bw = new BufferedWriter(new FileWriter("OptimisticDataForInsertionSort.txt"));
-            for (int i = 100; i < amount; i += 300) {
+            for (int i = 100; i < amount; i += 100) {
                 DataGenerator dataGenerator = new DataGenerator();
                 double avgTime = 0;
 
@@ -78,7 +78,7 @@ public class InsertionSort implements SortingAlgorithm {
             System.out.println("Optimistic data generating completed");
 
             bw = new BufferedWriter(new FileWriter("PessimisticDataInsertionSort.txt"));
-            for (int i = 100; i < amount; i += 300) {
+            for (int i = 100; i < amount; i += 100) {
                 DataGenerator dataGenerator = new DataGenerator();
                 double avgTime = 0;
 

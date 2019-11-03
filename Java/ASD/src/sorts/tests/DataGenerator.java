@@ -21,7 +21,7 @@ public class DataGenerator {
     public double[] generateAverageDataForSelectionSort(int amount) {
         double[] data = new double[amount];
         for (int i = 0; i < amount; i++) {
-            data[i] = randomizer.nextDouble();
+            data[i] = Math.round(1000 * 1000 * randomizer.nextDouble());
         }
         return data;
     }
@@ -29,7 +29,7 @@ public class DataGenerator {
     public double[] generateOptimisticDataForSelectionSort(int amount) {
         double[] data = new double[amount];
         for (int i = 0; i < amount; i++) {
-            data[i] = 0.0625 * i;
+            data[i] = 0.0625 * (double)i;
         }
         return data;
     }
@@ -37,7 +37,7 @@ public class DataGenerator {
     public double[] generatePessimisticDataForInsertionSort(int amount) {
         double[] data = new double[amount];
         for (int i = amount - 1; i >= 0; i--) {
-            data[i] = 0.0625 * i;
+            data[i] = 0.0625 * (double)i;
         }
         return data;
     }
@@ -45,7 +45,7 @@ public class DataGenerator {
     public double[] generateAverageDataForInsertionSort(int amount) {
         double[] data = new double[amount];
         for (int i = 0; i < amount; i++) {
-            data[i] = randomizer.nextDouble();
+            data[i] = Math.round(1000*1000*randomizer.nextDouble());
         }
         return data;
     }

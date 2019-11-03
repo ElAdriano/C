@@ -36,9 +36,10 @@ public class SelectionSort implements SortingAlgorithm {
         SelectionSort selectionSort = new SelectionSort();
 
         try {
+            System.out.println("Start generating data");
             BufferedWriter bw = new BufferedWriter(new FileWriter("PessimisticDataSelectionSort.txt"));
             long beforeSortTime, afterSortTime;
-            for (int i = 100; i < amount; i += 100) {
+            for (int i = 100; i < amount; i += 500) {
                 DataGenerator dataGenerator = new DataGenerator();
                 double avgTime = 0;
 
@@ -56,8 +57,9 @@ public class SelectionSort implements SortingAlgorithm {
                 bw.newLine();
             }
             bw.close();
+            System.out.println("Pessimistic data generating completed");
 
-            bw = new BufferedWriter(new FileWriter("AverageDataForSelectionSort.txt"));
+            /*bw = new BufferedWriter(new FileWriter("AverageDataForSelectionSort.txt"));
             for (int i = 100; i < amount; i += 100) {
                 DataGenerator dataGenerator = new DataGenerator();
                 double avgTime = 0;
@@ -76,9 +78,10 @@ public class SelectionSort implements SortingAlgorithm {
                 bw.newLine();
             }
             bw.close();
+            System.out.println("Average data generating completed");*/
 
             bw = new BufferedWriter(new FileWriter("OptimisticDataForSelectionSort.txt"));
-            for (int i = 100; i < amount; i += 100) {
+            for (int i = 100; i < amount; i += 500) {
                 DataGenerator dataGenerator = new DataGenerator();
                 double avgTime = 0;
 
@@ -96,6 +99,7 @@ public class SelectionSort implements SortingAlgorithm {
                 bw.newLine();
             }
             bw.close();
+            System.out.println("Optimistic data generating completed");
             System.out.println("Data generating completed");
         } catch (IOException e) {
         }
