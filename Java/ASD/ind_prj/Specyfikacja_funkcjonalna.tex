@@ -1,0 +1,142 @@
+\documentclass[10pt,oneside]{article}
+\usepackage{polski}
+\usepackage{fancyhdr} %numerowanie i toppery
+\usepackage{lastpage} %ostatnia strona
+\usepackage{indentfirst} %wcięcie
+\usepackage{tikz}
+
+\title{Specyfikacja funkcjonalna - BieszczadyTour}
+\author{Adrian Bączek}
+\date{9.11.2019}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\begin{document}
+\maketitle
+
+\rfoot{
+	\begin{flushright}
+		v1.0
+	\end{flushright}
+}
+
+\thispagestyle{fancy}
+
+\newpage
+
+\rfoot{
+	\begin{center}
+		Strona \thepage \hspace{1pt} z \pageref{LastPage}
+	\end{center}
+}
+
+\section{Wstęp}
+\subsection{Cel dokumentu}
+Celem dokumentu jest klarowne i~przejrzyste nakreślenie 
+odbiorcy programu sposobu korzystania z oprogramowania.
+\subsection{Cel projektu}
+Jako cel projektu obrany został program wyznaczający, najlepszą możliwą do przebycia, 
+trasę na podstawie informacji podanych przez użytkownika.
+\subsection{Użytkownik końcowy}
+Oprogramowanie zostało stworzone z dedykacją dla osób ciekawych świata 
+i~jego wyzwań, by mogli oni tak długo czerpać radość z natury jak tylko zapragną.
+
+\section{Uruchamianie programu}
+Uruchomienie programu nastąpi po wywołaniu komendy : $$run.bat~plik\_konfiguracyjny~ID\_miejsca~miejsca\_podróży$$
+Jako argumenty wywołania skryptu podajemy ścieżkę do pliku konfiguracyjnego, identyfikator miejsca 
+z którego chcemy rozpocząć wędrówkę oraz ścieżkę do pliku z wybranymi miejscami podróży (argument opcjonalny).
+
+Przykładowa komenda uruchamiająca program:
+\newline
+run.bat~C:$\backslash$Users$\backslash$User$\backslash$Desktop$\backslash$trasy.txt~A~C:$\backslash$Users$\backslash$User$\backslash$Desktop$\backslash$do\_odwiedzenia.txt
+
+\section{Dane programu}
+Format danych wejściowych oraz wyjściowych
+\subsection{Dane wejściowe}
+Użytkownik podaje jako argumenty uruchomienia ścieżkę do pliku konfiguracyjnego, identyfikator miejsca startowego oraz opcjonalnie ścieżkę do pliku z~wybranymi przez niego miejscami podróży.
+Do poprawnego działania programu wymagany jest poniższy format danych wejściowych :
+\begin{itemize}
+	\item Plik konfiguracyjny \newline W pliku powinny znale/xc się odpowiednio oznaczone 2 listy informujące o~punktach szlaku turystycznego i połączeniach między nimi.
+	\begin{itemize}
+		\item Pierwszy zestaw danych oznaczony jako ,,\#\#\# Miejsca podróży" należy podać w poniższym formacie : \newline
+		Lp. $\vert$ ID\_miejsca $\vert$ Nazwa miejsca $\vert$ Opis miejsca $\vert$
+		\newline \newline
+		\underline{Przykład}
+		\newline \newline
+		Lp.$\vert$ ID\_miejsca $\vert$ Nazwa miejsca $\vert$ Opis miejsca $\vert$ \newline
+		1. $\vert$ A $\vert$ Koliba Studencka Politechniki Warszawskiej $\vert$ Baza wypadowa (miejsce rozpoczęcia wędrówki) $\vert$ \newline
+		2. $\vert$ B $\vert$ Jawornik $\vert$ Szczyt (1021) $\vert$ \newline
+		3. $\vert$ C $\vert$ Rabia Skała $\vert$ Szczyt (1199) $\vert$ \newline
+		4. $\vert$ D $\vert$ Dziurkowiec $\vert$ Szczyt (1189) $\vert$ \newline
+		5. $\vert$ E $\vert$ Okrąglik $\vert$ Szczyt (1101) $\vert$ \newline
+		6. $\vert$ F $\vert$ Fereczata $\vert$ Szczyt (1102) $\vert$ \newline
+		
+		\item Druga lista oznaczona jako ,,\#\#\# Czas przejścia" podana zostać powinna w następującym formacie : \newline
+		Lp. $\vert$ ID\_miejsca\_początkowego (S) $\vert$ ID\_miejsca\_końcowego (E) $\vert$ Czas S $\to$ E $\vert$ Czas E $\to$ S $\vert$ Jednorazowa opłata za przejście trasą (zł) $\vert$
+		\newline \newline
+		\underline{Przykład}
+		\newline \newline
+		Lp. $\vert$ ID\_miejsca\_początkowego (S) $\vert$ ID\_miejsca\_końcowego (E) $\vert$ Czas S $\to$ E $\vert$ Czas E $\to$ S $\vert$ Jednorazowa opłata za przejście trasą (zł) $\vert$ \newline
+		1. $\vert$ A $\vert$ B $\vert$ 2:00 $\vert$ 3:00 $\vert$ -- $\vert$ \newline
+		2. $\vert$ A $\vert$ C $\vert$ 4:00 $\vert$ 4:30 $\vert$ 5 $\vert$ \newline
+		3. $\vert$ B $\vert$ C $\vert$ 1:30 $\vert$ 1:30 $\vert$ -- $\vert$ \newline
+		4. $\vert$ B $\vert$ D $\vert$ 1:00 $\vert$ 1:30 $\vert$ -- $\vert$ \newline
+		5. $\vert$ B $\vert$ E $\vert$ 1:00 $\vert$ 1:30 $\vert$ -- $\vert$ \newline
+		6. $\vert$ C $\vert$ D $\vert$ 3:00 $\vert$ 2:00 $\vert$ -- $\vert$ \newline
+		7. $\vert$ D $\vert$ F $\vert$ 4:00 $\vert$ 3:00 $\vert$ -- $\vert$ \newline
+		8. $\vert$ E $\vert$ F $\vert$ 0:30 $\vert$ 0:30 $\vert$ -- $\vert$ \newline
+	\end{itemize}
+
+	\item ID\_miejsca
+	\begin{itemize}
+		\item Identyfikator miejsca startowego powinien odpowiadać konkretnej, wybranej przez użytkownika lokalizacji z pliku konfiguracyjnego.
+		\newline \newline
+		\underline{Przykład}
+		\newline \newline
+		A
+	\end{itemize}
+	
+	\item Plik z wybranymi miejscami podróży
+	\begin{itemize}
+		\item Opcjonalny plik (oznaczony wewnątrz jako ,,\#\#\# Wybrane miejsca podróży")~z wybranymi miejscami wycieczki podany powinien być w~formacie : \newline
+		Lp. $\vert$ ID\_miejsca $\vert$
+		\newline \newline
+		\underline{Przykład}
+		\newline \newline
+		1. $\vert$ A $\vert$ \newline
+		2. $\vert$ B $\vert$ \newline
+		3. $\vert$ E $\vert$ \newline
+	\end{itemize}
+\end{itemize}
+
+\subsection{Dane wyjściowe}
+Program na podstawie poprawnych danych wyznaczy optymalną trasę, po czym wyeksportuje wynik do pliku "tour.txt".
+Zawartość pliku wynikowego przedstawiona zostanie w postaci listy miejsc zaplanowanych do odwiedzenia oraz krótkiego oszacowania czasu i kosztu podróży.
+\newline \newline
+\underline{Przykład}
+\newline \newline
+Koliba Studencka Politechniki Warszawskiej \newline
+$\to$ Jawornik \newline
+$\to$ Dziurkowiec \newline
+$\to$ Rabia Skała \newline
+$\to$ Jawornik \newline
+$\to$ Okrąglik \newline
+$\to$ Fereczata \newline
+$\to$ Okrąglik \newline
+$\to$ Jawornik \newline
+$\to$ Koliba Studencka Politechniki Warszawskiej \newline
+Czas: 13 godzin 0 minut \newline
+Koszt: 0 zł \newline
+
+
+\section{Scenariusz przebiegu działania programu}
+przebieg działania (od uruchomienia do zakończenia) widziany okiem użytkownika.
+
+\subsection{Opis sytuacji wyjątkowych}
+jakie komunikaty mogą być zwracane w przypadku różnych błędów.
+
+\section{Testowanie}
+należy napisać w jaki sposób (z punktu widzenia czarnej skrzynki) program będzie testowany. Inaczej: co Państwo będą próbowali sprawdzić (i w jaki sposób to sprawdzenie zostanie wykonane).
+
+\end{document}
