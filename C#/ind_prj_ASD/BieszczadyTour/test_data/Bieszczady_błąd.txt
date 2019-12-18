@@ -1,0 +1,79 @@
+### Miejsca podróży
+Lp. | ID_miejsca | Nazwa miejsca | Opis miejsca |
+1. | A | Stare Sioło |  |
+2. | B | Przełęcz M. Orłowicza | Szczyt 1093 |
+3. | C | Smerek (szczyt) | Szczyt 1222 |
+4. | D | Smerek (wieś) |  |
+5. | E | Fereczata | Szczyt 1102 |
+6. | F | Okrąglik | Szczyt 1101 |
+7. | G | Płasza | Szczyt 1163 |
+8. | H | Dziurkowiec | Szczyt 1189 |
+9. | I | Rabia Skała | Szczyt 1199 |
+10. | J | Paprotna | Szczyt 1199 |
+11. | K | Jawornik | Szczyt 1221 |
+12. | L | Zajazd Pod Połoniną |  |
+13. | M | Hnatowe Berdo | Szczyt 1187 |
+14. | N | Osadzki Wierch | Szczyt 1253 |
+15. | O | Roh | Szczyt 1255 |
+16. | P | PTTK Chatka Puchatka |  |
+17. | Q | Połonina Caryńska (początek:lewa) |  |
+18. | R | Połonina Caryńska (środek) |  |
+19. | S | Połonina Caryńska (koniec:prawa) |  |
+20. | T | PTTK Kremenaros |  |
+21. | U | Tarncia | Szczyt 1346 |
+22. | V | Hudów Wierszek | Szczyt 965 |
+23. | W | Wołosate |  |
+24. | X | Kopa Bukowska | Szczyt 1320 |
+25. | Y | Halicz | Szczyt 1333 |
+26. | Z | Rozsypaniec | Szczyt 1280 |
+27. | AA | Przełęcz Bukowska | Szczyt 1110 |
+28. | AB | Krzemień | Szczyt 1335 |
+29. | AC | Muczne | wieś |
+30. | AD | Widełki | Szczyt 1016 |
+31. | AE | Kopa | Szczyt 886 |
+32. | AF | Widełki | wieś |
+33. | AG | Bereżki | wieś |
+34. | AH | Przysłup Caryński | Szczyt 785 |
+35. | AI | Przełęcz Krygowskiego | Szczyt 1286 |
+
+### Czas przejścia
+Lp. | ID_miejsca_początkowego (S) | ID_miejsca_końcowego (E) | Czas S -> E | Czas E -> S | Jednorazowa opłata za przejście trasą (zł) |
+1. | A | B | 2:15 | 2:00 | 5 |
+2. | B | C | 0:20 | 0:15 | -- |
+3. | B | M | 1:15 | 1:30 | -- |
+3. | C | D | 2:00 | 2:30 | 5 |
+4. | D | E | 2:20 | 1:45 | -- |
+5. | E | F | 0:40 | 0:50 | -- |
+6. | F | G | 2:15 | 2:00 | -- |
+7. | G | H | 0:50 | 1:00 | -- |
+8. | H | I | 0:35 | 0:30 | -- |
+9. | I | J | 0:20 | 0:35 | -- |
+10. | J | K | 1:15 | 1:40 | -- |
+11. | K | A | 1:15 | 1:45 | -- |
+12. | K | L | 0:45 | 1:15 | -- |
+13. | K | L | 0:45 | 1:15 | -- |
+14. | M | N | 0:25 | 0:25 | -- |
+15. | N | O | 0:10 | 0:10 | -- |
+16. | O | P | 0:35 | 0:50 | -- |
+17. | P | Q | 1:00 | 1:30 | 5 |
+18. | Q | R | 1:30 | 1:00 | -- |
+19. | R | S | 0:30 | 0:30 | -- |
+20. | S | T | 1:15 | 1:30 | 5 |
+21. | S | AH | 1:00 | 1:45 | -- |
+22. | T | AI | 3:00 | 2:15 | 5 |
+23. | T | W | 1:30 | 1:30 | -- |
+24. | T | AG | 1:15 | 1:15 | -- |
+25. | AI | U | 0:15 | 0:15 | -- |
+26. | AI | V | 0:30 | 1:00 | -- |
+27. | AI | X | 1:00 | 0:45 | -- |
+28. | AI | AB | 0:45 | 0:30 | -- |
+29. | V | W | 0:30 | 1:00 | -- |
+30. | X | Y | 0:45 | 0:30 | -- |
+31. | Y | Z | 0:30 | 0:30 | -- |
+32. | Z | AA | 0:30 | 0:30 | -- |
+33. | AB | AC | 2:15 | 2:35 | 5 |
+34. | AB | AD | 2:30 | 2:15 | -- |
+35. | AD | AE | 0:30 | 0:30 | -- |
+36. | AE | AF | 0:30 | 0:30 | 5 |
+37. | AF | AG | 0:30 | 0:30 | -- |
+38. | AG | AH | 1:00 | 0:45 | -- |

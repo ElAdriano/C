@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="600.0" stylesheets="@arkanoid_styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.GameScreenController">
+    <children>
+        <HBox alignment="CENTER" prefHeight="20.0" prefWidth="600.0" spacing="20.0" styleClass="background_top_element">
+            <children>
+                <Label fx:id="lifesLabel" text="Lifes: 3" />
+                <HBox alignment="CENTER">
+                    <children>
+                        <Label text="Time from beginning: " />
+                        <Label fx:id="timeLabel" text="0:00" />
+                    </children>
+                </HBox>
+                <Label text="Press P to Pause" />
+            </children>
+        </HBox>
+        <AnchorPane id="background" fx:id="field" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#handleSceneClick" prefHeight="400.0" prefWidth="600.0" styleClass="background">
+            <children>
+                <Rectangle id="palette" fx:id="paddleRectangle" fill="GREY" height="14.0" layoutX="270.0" layoutY="372.0" stroke="BLACK" strokeType="INSIDE" styleClass="palette" width="61.0" />
+                <Circle id="ball" fx:id="ballCircle" fill="GREY" layoutX="300.0" layoutY="362.0" radius="10.0" styleClass="ball" />
+                <Rectangle fill="DODGERBLUE" height="25.0" layoutX="324.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp1" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="276.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp7" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="228.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp4" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="228.0" layoutY="64.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp2" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="324.0" layoutY="64.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp4" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="62.0" layoutY="86.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp3" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="110.0" layoutY="62.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp8" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="14.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp1" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="62.0" layoutY="38.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp2" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="489.0" layoutY="38.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp3" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="441.0" layoutY="62.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp8" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="537.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp1" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="132.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp6" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="84.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp5" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="180.0" layoutY="136.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp7" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="84.0" layoutY="184.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp1" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="14.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp4" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="132.0" layoutY="112.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp4" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="324.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp4" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="276.0" layoutY="184.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp1" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="228.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp5" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="276.0" layoutY="136.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp2" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="228.0" layoutY="112.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp1" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="276.0" layoutY="112.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp6" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="324.0" layoutY="112.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp3" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="468.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp1" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="420.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp2" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="537.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp6" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="372.0" layoutY="136.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp1" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="420.0" layoutY="112.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp7" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="489.0" layoutY="86.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp5" width="49.0" />
+            <Rectangle fill="DODGERBLUE" height="25.0" layoutX="468.0" layoutY="184.0" stroke="BLACK" strokeType="INSIDE" styleClass="hp3" width="49.0" />
+            </children>
+        </AnchorPane>
+        <Rectangle fx:id="blurRectangle" arcHeight="5.0" arcWidth="5.0" fill="#8f8f8fa1" height="488.0" layoutX="-41.0" layoutY="-33.0" stroke="BLACK" strokeType="INSIDE" visible="false" width="686.0" />
+        <Label fx:id="Label2" alignment="CENTER" contentDisplay="CENTER" layoutY="146.0" prefHeight="53.0" prefWidth="600.0" text="Press P to unpause" textAlignment="CENTER" visible="false">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="Label1" alignment="CENTER" contentDisplay="CENTER" layoutY="109.0" prefHeight="53.0" prefWidth="600.0" text="Game is Paused" textAlignment="CENTER" visible="false">
+            <font>
+                <Font size="36.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

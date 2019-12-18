@@ -1,0 +1,5 @@
+### Miejsca podróży
+Lp.| ID miejsca | Nazwa miejsca | Opis miejsca |
+
+### Czas przejścia
+Lp. | ID_miejsca_początkowego (S) | ID_miejsca_końcowego (E) | Czas S -> E | Czas E -> S | Jednorazowa opłata za przejście trasą (zł) |

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" styleClass="start_background" stylesheets="@arkanoid_styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.MainMenuController">
+   <children>
+      <Button alignment="BASELINE_CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="228.0" layoutY="186.0" mnemonicParsing="false" onAction="#handlePlayButton" prefHeight="29.0" prefWidth="144.0" styleClass="play_button" stylesheets="@arkanoid_styles.css" text="PLAY">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="228.0" layoutY="234.0" mnemonicParsing="false" onAction="#handleExitButton" prefHeight="29.0" prefWidth="144.0" styleClass="change_grid_btn" stylesheets="@arkanoid_styles.css" text="EXIT" />
+   </children>
+</Pane>

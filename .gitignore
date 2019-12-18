@@ -1,0 +1,13 @@
+#gitignore file
+
+# Java IDE configuration files
+.idea/*
+.classpath
+.project
+*.iml
+out/*
+META-INF/*
+
+# C# IDE configuration files
+.vs
+bin/*

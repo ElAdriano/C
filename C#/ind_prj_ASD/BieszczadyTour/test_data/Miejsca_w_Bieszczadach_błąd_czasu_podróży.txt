@@ -1,0 +1,35 @@
+### Miejsca podróży
+Lp.| ID miejsca | Nazwa miejsca | Opis miejsca |
+1. | A | Stare Sioło | Stare Sioło |
+2. | B | Halicz | Halicz |
+3. | C | Babice | Babice |
+4. | D | Połonina Caryńska | Połonina Caryńska |
+5. | E | Krzemień | Krzemień |
+6. | F | PTTK Chatka Puchatka | PTTK Chatka Puchatka |
+7. | G | Smerek | Smerek |
+8. | H | Jawornik | Jawornik |
+9. | I | Osadzki Wierch | Osadzki Wierch |
+10. | J | Hasłakowa Skała | Hasłakowa Skała |
+
+### Czas przejścia
+Lp. | ID_miejsca_początkowego (S) | ID_miejsca_końcowego (E) | Czas S -> E | Czas E -> S | Jednorazowa opłata za przejście trasą (zł) |
+1. | A | B | 2:00 | 3:00 | – |
+2. | B | C | 3:00 | 5:00 | 5 |
+3. | J | A | 1:00 | 2:00 | – |
+4. | D | H | 2:00 | 2:30 | 10 |
+5. | F | E | 4:00 | 5:00 | 2 |
+6. | G | A | 5:00 | 3:00 | – |
+7. | E | B | 3:00 | 4:30 | 1 |
+8. | H | E | 2:01 | 1:00 | – |
+9. | C | D | 1:00 | 3:10 | – |
+10. | E | J | 5:00 | 6:00 | 3,50 |
+11. | C | H | 4:00 | 5:05 | 2 |
+12. | A | H | 0:05 | 6:30 | – |
+13. | J | G | 2:00 | 3:40 | 5 |
+14. | I | A | 1:00 | 4:50 | 7 |
+15. | H | G | 3:00 | 4:20 | – |
+16. | D | C | 5:00 | 4:10 | – |
+17. | G | F | 2:00 | 3:15 | 2 |
+18. | E | A | 3:00 | 3:20 | 4 |
+19. | H | D | 1:00 | 3:00 | – |
+20. | A | F | 5:00 | 6:40 | – |

@@ -1,0 +1,178 @@
+
+.start_background{
+    -fx-background-image: url("arkanoid.png");
+    -fx-background-size: 100% 100%;
+}
+
+.play_button{
+    -fx-border-radius: 20px;
+    -fx-background-color: rgb(0,191,250);
+}
+
+.play_button:hover{
+    -fx-background-color: azure;
+}
+
+.change_grid_btn{
+    -fx-background-color: rgb(0,191,250);
+}
+
+.change_grid_btn:hover{
+    -fx-background-color: azure;
+}
+
+.palette{
+    -fx-background-color: rgb(139, 10, 36);
+    -fx-border-radius: 50 50 18 18;
+}
+
+.background{
+    -fx-background-color: rgb(25,25,112);
+}
+
+.background_top_element{
+    -fx-background-color: rgb(134,164,204);
+}
+
+.ball{
+    -fx-fill: GREY;
+    -fx-stroke-width: 1;
+    -fx-stroke: BLACK;
+}
+
+.block{
+    -fx-background-color: rgb(255,0,0);
+}
+
+.grid1{
+    -fx-background-image: url("grid1.png") !important;
+    -fx-background-size: 100% 100%;
+}
+
+.grid2{
+    -fx-background-image: url("grid2.png") !important;
+    -fx-background-size: 100% 100%;
+}
+
+.grid3{
+    -fx-background-image: url("grid3.png") !important;
+    -fx-background-size: 100% 100%;
+}
+
+.grid4{
+    -fx-background-image: url("grid4.png") !important;
+    -fx-background-size: 100% 100%;
+}
+
+.grid5{
+    -fx-background-image: url("grid5.png") !important;
+    -fx-background-size: 100% 100%;
+}
+
+.grid6{
+    -fx-background-image: url("grid6.png") !important;
+    -fx-background-size: 100% 100%;
+}
+
+.grid7{
+    -fx-background-image: url("grid7.png") !important;
+    -fx-background-size: 100% 100%;
+}
+
+.grid8{
+    -fx-background-image: url("grid8.png") !important;
+    -fx-background-size: 100% 100%;
+}
+
+.grid9{
+    -fx-background-image: url("grid9.png") !important;
+    -fx-background-size: 100% 100%;
+}
+
+.gridX{
+    -fx-background-image: url("gridX.png") !important;
+    -fx-background-size: 100% 100%;
+}
+
+.selected{
+    -fx-border-style: solid;
+    -fx-border-color: red;
+    -fx-border-width: 5px;
+}
+
+.hp0{
+    -fx-fill: #ff0000;
+}
+
+.hp1{
+    -fx-fill:#ff0000;
+}
+
+.hp2{
+    -fx-fill:#ff9900;
+}
+
+.hp3{
+    -fx-fill: #ffff00;
+}
+
+.hp4{
+    -fx-fill: #00ff00;
+}
+
+.hp5{
+    -fx-fill: #00ffcc;
+}
+
+.hp6{
+    -fx-fill: #00ccff;
+}
+
+.hp7{
+    -fx-fill: #0000cc;
+}
+
+.hp8{
+    -fx-fill: #660099;
+}
+
+.hp9{
+    -fx-fill: #000000;
+}
+
+.speedUP{
+    -fx-image: url("speedUP.png")
+}
+
+.speedDOWN{
+    -fx-image: url("speedDOWN.png")
+}
+
+.psizeUP{
+    -fx-image: url("psizeUP.png")
+}
+
+.psizeDOWN{
+    -fx-image: url("psizeDOWN.png")
+}
+
+.bsizeUP{
+    -fx-image: url("bsizeUP.png")
+}
+
+.bsizeDOWN{
+    -fx-image: url("bsizeDOWN.png")
+}
+
+.extraBALLS{
+    -fx-image: url("extraBALLS.png")
+}
+
+
+
+
+
+
+
+
+
